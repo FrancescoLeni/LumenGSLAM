@@ -15,43 +15,54 @@ LumenGSLAM is an online visual SLAM framework for photorealistic 3D reconstructi
 
 ## PBR light decoupling 💡
 
-<div align="center" style="max-width: 900px; margin: auto;">
-<table align="center"  style="border-collapse: collapse; border: none;">
+
+
+<h3 align="center">Physically Based Rendering (PBR) Modeling</h3>
+
+<p align="center">
+<table align="center" style="border-collapse: collapse; border: none; width: 95%;">
   <tr>
-    <td align="center"><b>PBR modeling</b></td>
-    <td align="center"><b>Base Color</b></td>
-    <td align="center"><b>Diffuse Light</b></td>
-    <td align="center"><b>Full PBR</b></td>
+    <td align="center" style="padding: 4px;"><b>Base Color</b></td>
+    <td align="center" style="padding: 4px;"><b>Diffuse Light</b></td>
+    <td align="center" style="padding: 4px;"><b>Full PBR</b></td>
   </tr>
   <tr>
-    <td align="center"><img src="repo_data/pbr_graphic_v2.png" width="80%"></td>
-    <td align="center"><img src="repo_data/train_cecum_t1_b_albedo_only_30fps.gif" width=1000></td>
-    <td align="center"><img src="repo_data/train_cecum_t1_b_diffuse_only_30fps.gif" width=900></td>
-    <td align="center"><img src="repo_data/train_cecum_t1_b_full_seq_30fps.gif" width=1140></td>
+    <td align="center" style="padding: 4px;">
+      <img src="repo_data/train_cecum_t1_b_albedo_only_30fps.gif" width="105%" alt="Base Color">
+    </td>
+    <td align="center" style="padding: 4px;">
+      <img src="repo_data/train_cecum_t1_b_diffuse_only_30fps.gif" width="105%" alt="Diffuse Light">
+    </td>
+    <td align="center" style="padding: 4px;">
+      <img src="repo_data/train_cecum_t1_b_full_seq_30fps.gif" width="105%" alt="Full PBR">
+    </td>
   </tr>
-  
 </table>
-</div>
+</p>
 
 ---
 
 
 ## 3D reconstruction 🏗️
 
-<div align="center" style="max-width: 900px; margin: auto;">
-<table align="center"  style="border-collapse: collapse; border: none;">
+<h3 align="center">Qualitative Comparison</h3>
+
+<p align="center">
+<table align="center" style="border-collapse: collapse; border: none; width: 90%;">
   <tr>
-    <td align="center"><b>Ground-Truth</b></td>
-    <td align="center"><b>LumenGSLAM</b></td>
-    
+    <td align="center" style="padding: 6px;"><b>Ground Truth</b></td>
+    <td align="center" style="padding: 6px;"><b>LumenGSLAM</b></td>
   </tr>
   <tr>
-    <td align="center"><img src="repo_data/GT_12fps.gif" width=1050></td>
-    <td align="center"><img src="repo_data/my_model (pnp)_12fps.gif" width=1000></td>
+    <td align="center" style="padding: 6px;">
+      <img src="repo_data/GT_12fps.gif" width="95%" alt="Ground Truth">
+    </td>
+    <td align="center" style="padding: 6px;">
+      <img src="repo_data/my_model%20(pnp)_12fps.gif" width="95%" alt="LumenGSLAM">
+    </td>
   </tr>
-  
 </table>
-</div>
+</p>
 
 ---
 
