@@ -15,7 +15,7 @@ LumenGSLAM is an online visual SLAM framework for photorealistic 3D reconstructi
 
 ## PBR light decoupling 💡
 
-
+<div align="center" style="max-width: 900px; margin: auto;">
 <table align="center"  style="border-collapse: collapse; border: none;">
   <tr>
     <td align="center"><b>PBR modeling</b></td>
@@ -31,13 +31,14 @@ LumenGSLAM is an online visual SLAM framework for photorealistic 3D reconstructi
   </tr>
   
 </table>
+</div>
 
 ---
 
 
 ## 3D reconstruction 🏗️
 
-
+<div align="center" style="max-width: 900px; margin: auto;">
 <table align="center"  style="border-collapse: collapse; border: none;">
   <tr>
     <td align="center"><b>Ground-Truth</b></td>
@@ -50,6 +51,7 @@ LumenGSLAM is an online visual SLAM framework for photorealistic 3D reconstructi
   </tr>
   
 </table>
+</div>
 
 ---
 
