@@ -1,0 +1,13 @@
+
+{
+  "data_path": "dataset/C3VD/sigmoid_t3_a",
+  "image_width": 675,
+  "image_height": 540,
+  "desired_width": 675,
+  "desired_height": 540,
+  "fx": 401.1595,
+  "fy": 400.9425,
+  "cx": 334.143,
+  "cy": 273.8665,
+  "depth_scale": 2.55
+}

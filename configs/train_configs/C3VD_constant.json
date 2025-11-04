@@ -1,0 +1,107 @@
+{
+    "map_every": 1,
+    "use_every": 1,
+    "keyframe_every": 8,
+    "checkpoint_every": 25,
+    "cull_outside_depth": false,
+    "bundle_adjustment": false,
+    "plot_progress": false,
+    "do_pbr": true,
+    "pose_refinement": "after_tracking",
+    "use_energy_mask": false,
+    "gaussians": {
+        "isotropy": false,
+        "scene_radius_depth_ratio": 3,
+        "max_sh_degree": 3,
+        "scale_init_mode": "depth",
+        "normals_mode": "cuda",
+        "align_init_axis": true
+    },
+    "tracking": {
+        "num_iter": 15,
+        "loss_fn": "photometric",
+        "use_lie_algebra": false,
+        "ignore_reflexes": false,
+        "init_pose_mode": "constant_speed",
+        "weighted_loss": false,
+        "lrs": {
+            "cam_unnorm_rots": 0.002,
+            "cam_trans": 0.005,
+            "cam_rot_delta": 0.003,
+            "cam_trans_delta": 0.001
+        },
+        "loss": {
+            "use_normal_loss": false,
+            "mask_photometric_loss": true,
+            "reconstruction_gain": 0.5,
+            "depth_gain": 1.0,
+            "norm_gain": 0.0,
+            "proj_gain": 1.0
+        }
+    },
+    "mapping": {
+        "num_iter": 25,
+        "sil_add_thresh": 0.9,
+        "lrs": {
+            "means3D": 0.0001,
+            "rgb_colors": 0.0025,
+            "unnorm_rotations": 0.001,
+            "logit_opacities": 0.05,
+            "log_scales": 0.001,
+            "light": 0.003,
+            "roughness": 0.002,
+            "F0": 0.002
+        },
+        "loss": {
+            "use_normal_loss": false,
+            "mask_photometric_loss": false,
+            "reconstruction_gain": 1.0,
+            "depth_gain": 1.0,
+            "norm_gain": 0.0,
+            "light_gain": 1.0
+        }
+    },
+    "keyframes": {
+        "selection_mode": "distance",
+        "current_frame_prob": 0.1,
+        "list_length": -1,
+        "remove_count": -1
+    },
+    "lr_scheduler": {
+        "use_scheduler": true,
+        "alpha_spatial": 0.02,
+        "x_offset_spatial": 200,
+        "y_offset_spatial": 0.0,
+        "alpha_scale": 0.015,
+        "x_offset_scale": 500,
+        "y_offset_scale": 0.0,
+        "alpha_color": 0.015,
+        "x_offset_color": 500.0,
+        "y_offset_color": 0.0,
+        "alpha_sh": 0.0,
+        "x_offset_sh": 0.0,
+        "y_offset_sh": 1.0,
+        "alpha_opacity": 0.02,
+        "x_offset_opacity": 200,
+        "y_offset_opacity": 0.0,
+        "alpha_pbr": 0.0,
+        "x_offset_pbr": 0.0,
+        "y_offset_pbr": 1.0,
+        "alpha_rot": 0.0,
+        "x_offset_rot": 0.0,
+        "y_offset_rot": 1.0
+    },
+    "densification": {
+        "do_legacy_densification": false,
+        "densify_every": 100,
+        "prune_every_map_iter": 50,
+        "densify_until_iter": 1000000,
+        "grad_thresh": 0.0002,
+        "densify_from_iter": 25,
+        "num_to_split_into": 2,
+        "removal_opacity_threshold": 0.005,
+        "remove_big_after": 0,
+        "reset_opacities_every": 1000000,
+        "init_split_scale": "fraction"
+    }
+}
