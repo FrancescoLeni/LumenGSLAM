@@ -2,7 +2,7 @@
 from pathlib import Path
 import time
 
-from LumenGSLAM.utils.general import my_logger
+from utils.general import my_logger
 
 
 

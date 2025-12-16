@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import cv2
 from matching.viz import plot_matches
 
-from LumenGSLAM.models.feature_matcher import sample_sparse_matches_3d2d_fuzzy, get_keypoints_3D_2D
+from models.feature_matcher import sample_sparse_matches_3d2d_fuzzy, get_keypoints_3D_2D
 
 def align(model, data):
     """

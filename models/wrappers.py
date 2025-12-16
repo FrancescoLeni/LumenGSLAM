@@ -15,20 +15,20 @@ import torch.nn.functional as F
 from scipy.ndimage import label as cc_label
 
 
-from LumenGSLAM.utils.general import my_logger
-from LumenGSLAM.utils.training.optimizer import GaussiansOptimizer
-from LumenGSLAM.utils.training.losses import TrackingLoss, MappingLoss, MappingLossPBR, GeometricProjLoss, TrackingLossHybrid
-from LumenGSLAM.utils.data_process.outlier_handling import energy_mask
-from LumenGSLAM.utils.training.keyframe_selection import (keyframe_selection_overlap, keyframe_selection_distance, keyframe_selection_distance_loss,
+from utils.general import my_logger
+from utils.training.optimizer import GaussiansOptimizer
+from utils.training.losses import TrackingLoss, MappingLoss, MappingLossPBR, GeometricProjLoss, TrackingLossHybrid
+from utils.data_process.outlier_handling import energy_mask
+from utils.training.keyframe_selection import (keyframe_selection_overlap, keyframe_selection_distance, keyframe_selection_distance_loss,
                                                           keyframe_selection_loss, keyframe_selection_loss_time, keyframe_selection_uniform_count)
-from LumenGSLAM.utils.metrics import get_psnr_ssim_lpips
-from LumenGSLAM.utils.visualization.plot import save_img
-from LumenGSLAM.utils.data_process.geometry import transform_to_frame
-from LumenGSLAM.utils.data_process.sh_utils import compute_pbr_color
-from LumenGSLAM.utils.training.timer import TrainingTimer
-from LumenGSLAM.utils.data_process.loading import load_first_pose
-from LumenGSLAM.utils.data_process.pose_handling import rot2quat, quat2rot, pose_from_rot_trasl
-from LumenGSLAM.utils.data_process.lie_algebra import xi2rotm
+from utils.metrics import get_psnr_ssim_lpips
+from utils.visualization.plot import save_img
+from utils.data_process.geometry import transform_to_frame
+from utils.data_process.sh_utils import compute_pbr_color
+from utils.training.timer import TrainingTimer
+from utils.data_process.loading import load_first_pose
+from utils.data_process.pose_handling import rot2quat, quat2rot, pose_from_rot_trasl
+from utils.data_process.lie_algebra import xi2rotm
 
 TQDM_BAR_FORMAT = '{l_bar}{bar:10}{r_bar}'
 
@@ -154,14 +154,14 @@ class Trainer:
                             continue
 
                         # print(current_w2c, w2c_init)
-                        if self.train_config['do_phba'] not in ["after_tracking", "after_expansion", "after_mapping"]:
+                        if self.train_config['do_refinement'] not in ["after_tracking", "after_expansion", "after_mapping"]:
                             self.camera.set_w2c_from_best_quat_transl(quat, tran)
 
-                        if self.train_config['do_phba'] == 'after_tracking':
+                        if self.train_config['do_refinement'] == 'after_tracking':
                             if self.train_config['tracking']['loss_fn']  == 'geometric':
                                 quat, tran = self.geometric_pose_refinement(gt_im, gt_depth, i, w2c_init=w2c_init, gt_w2c=gt_pose)
                             elif self.train_config['tracking']['loss_fn'] in ['photometric', 'hybrid']:
-                                quat, tran = self.phba_loop(gt_im, gt_depth, i, gt_w2c=gt_pose)
+                                quat, tran = self.photometric_pose_refinement(gt_im, gt_depth, i, gt_w2c=gt_pose)
                             else:
                                 raise NotImplementedError
 
@@ -217,8 +217,8 @@ class Trainer:
 
                     self.logger.after_growth(i, post_pts-pre_pts)
 
-                    if self.train_config['do_phba'] == 'after_expansion' and self.tracking and i > 0:
-                        quat, rot = self.phba_loop(gt_im, gt_depth, i)
+                    if self.train_config['do_refinement'] == 'after_expansion' and self.tracking and i > 0:
+                        quat, rot = self.photometric_pose_refinement(gt_im, gt_depth, i)
                         self.camera.set_w2c_from_best_quat_transl(quat, rot)
                         self.tracking_loss_fn.reset()
 
@@ -233,8 +233,8 @@ class Trainer:
                     self.logger.mapping_end(self.gaussians.params['means3D'].shape[0])
                     self.mapping_loss_fn.reset()
 
-                    if self.train_config['do_phba'] == 'after_mapping' and self.tracking and i>0:
-                        quat, rot = self.phba_loop(gt_im, gt_depth, i)
+                    if self.train_config['do_refinement'] == 'after_mapping' and self.tracking and i>0:
+                        quat, rot = self.photometric_pose_refinement(gt_im, gt_depth, i)
                         self.camera.set_w2c_from_best_quat_transl(quat, rot)
                         self.tracking_loss_fn.reset()
 
@@ -331,7 +331,8 @@ class Trainer:
 
         return best_cam_unnorm_rot, best_cam_tran
 
-    def phba_loop(self, current_frame, current_depth, frame_id, gt_w2c, sil_thresh=0.99):
+    # this is actually just to do photometric_refinement
+    def photometric_pose_refinement(self, current_frame, current_depth, frame_id, gt_w2c, sil_thresh=0.99):
 
         num_iter = self.train_config['tracking']['num_iter']
 
@@ -547,9 +548,13 @@ class Trainer:
                     self.gaussians.params, self.gaussians.variables = optimizer.prune((~keep_mask), gaussians_params, gaussians_vars)
 
                 if self.train_config['bundle_adjustment'] and frame_id > 0:
-                    self.camera.w2c_traj[trj_n] = pose_from_rot_trasl(
-                        self.camera.quat_trasl_traj[trj_n]['cam_unnorm_rots'],
-                                                                                self.camera.quat_trasl_traj[trj_n]['cam_trans']).detach()
+                    # debug
+                    old_pose = copy.deepcopy(self.camera.w2c_traj[trj_n])
+                    self.camera.w2c_traj[trj_n] = pose_from_rot_trasl(self.camera.quat_trasl_traj[trj_n]['cam_unnorm_rots'],
+                                                                     self.camera.quat_trasl_traj[trj_n]['cam_trans']).detach()
+                    # debug
+                    print(old_pose - self.camera.w2c_traj[trj_n])
+
                     gaussians_params['means3D'] = gaussians_params['means3D'].detach().requires_grad_(True)
 
                 self.timer.mapping_iter_end()

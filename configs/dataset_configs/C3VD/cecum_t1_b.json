@@ -1,6 +1,6 @@
 
 {
-  "data_path": "/workspace/francesco/EndoGSLAM_exp/EndoGSLAM/data/C3VD/cecum_t1_b",
+  "data_path": "dataset/C3VD/cecum_t1_b",
   "image_width": 675,
   "image_height": 540,
   "desired_width": 675,

@@ -3,7 +3,7 @@ import numpy as np
 
 from lightglue import LightGlue, SuperPoint
 
-from LumenGSLAM.utils.data_process.geometry import backproject_selected_points
+from utils.data_process.geometry import backproject_selected_points
 
 
 

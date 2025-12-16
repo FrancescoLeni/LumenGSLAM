@@ -7,11 +7,11 @@ from diff_gaussian_rasterization import GaussianRasterizationSettings
 import numpy as np
 from matching import get_matcher
 
-from LumenGSLAM.utils.data_process.pose_handling import rot2quat, quat2rot, align_features_pnp
-from LumenGSLAM.utils.data_process.preprocessing import get_depth_and_silhouette
-from LumenGSLAM.utils.data_process.geometry import vectors2frame, SE3_exp
-from LumenGSLAM.utils.general import my_logger
-from LumenGSLAM.models.feature_matcher import get_keypoints_3D_2D
+from utils.data_process.pose_handling import rot2quat, quat2rot, align_features_pnp
+from utils.data_process.preprocessing import get_depth_and_silhouette
+from utils.data_process.geometry import vectors2frame, SE3_exp
+from utils.general import my_logger
+from models.feature_matcher import get_keypoints_3D_2D
 
 
 class Camera:
@@ -44,6 +44,7 @@ class Camera:
         self.opengl_proj = self.get_opengl_proj
 
         self.light = torch.nn.Parameter(torch.tensor([3.0, 0.13, 0.80]).float().to(self.device).requires_grad_(True))
+        # self.light = torch.nn.Parameter(torch.tensor([1.0, 0.13, 0.80]).float().to(self.device).requires_grad_(True))
 
         self.delta_cam = {'cam_rot_delta': torch.nn.Parameter(torch.zeros(3, requires_grad=True, device=device)),
                           'cam_trans_delta': torch.nn.Parameter(torch.zeros(3, requires_grad=True, device=device))}
@@ -124,7 +125,7 @@ class Camera:
             self.matcher = get_matcher('superpoint-lg', device=self.device)
             # self.matcher = MyMatcher(self.device,0.90)
 
-        i0, d0, p0, sil0 = last_frame['gt_im'], last_frame['gt_depth'], last_frame['r_w2c'], last_frame['r_sil']
+        i0, d0, p0, sil0 = last_frame['r_im'], last_frame['r_depth'], last_frame['r_w2c'], last_frame['r_sil']
 
         # avoid finding matches on low confidence / invalid pixels
 

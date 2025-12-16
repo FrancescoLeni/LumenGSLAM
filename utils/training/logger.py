@@ -8,8 +8,8 @@ from pathlib import Path
 import copy
 from collections import defaultdict
 
-from LumenGSLAM.utils.general import my_logger
-from LumenGSLAM.utils.metrics import get_psnr_ssim_lpips
+from utils.general import my_logger
+from utils.metrics import get_psnr_ssim_lpips
 
 
 # now only mapping logging
@@ -229,7 +229,7 @@ class TrainLogger:
         # df = pd.DataFrame(self.mask_dict)
         # df.to_csv(self.dst_path / 'mask_growth.csv', index=False)
 
-    def plot_save(self, plot_every=30, plot_metrics=False):
+    def plot_save(self, plot_metrics=False):
         csv_dict = self.save_metrics_csv(plot_metrics)
 
         map_loss_dict = {k: csv_dict[k] for k in csv_dict.keys() if 'loss' in k and 'map_' in k and 'frame' not in k}

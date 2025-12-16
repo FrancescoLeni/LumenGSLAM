@@ -4,9 +4,9 @@ import torch.nn.functional as F
 import math
 from torch.autograd import Variable
 
-from LumenGSLAM.utils.data_process.image_handling import rgb2gray
-from LumenGSLAM.utils.data_process.preprocessing import normals_from_depth, compute_image_gradients
-from LumenGSLAM.utils.data_process.geometry import project_to_screen, backproject_selected_points
+from utils.data_process.image_handling import rgb2gray
+from utils.data_process.preprocessing import normals_from_depth, compute_image_gradients
+from utils.data_process.geometry import project_to_screen, backproject_selected_points
 
 
 class BaseLoss(torch.nn.Module):

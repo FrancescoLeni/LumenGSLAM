@@ -7,7 +7,7 @@
     "bundle_adjustment": false,
     "plot_progress": false,
     "do_pbr": true,
-    "pose_refinement": "after_tracking",
+    "do_refinement": "after_tracking",
     "use_energy_mask": false,
     "gaussians": {
         "isotropy": false,

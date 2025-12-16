@@ -7,7 +7,7 @@
     "bundle_adjustment": false,
     "plot_progress": false,
     "do_pbr": true,
-    "do_phba": "no_refinement",
+    "do_refinement": "no_refinement",
     "use_energy_mask": false,
     "gaussians": {
         "isotropy": false,

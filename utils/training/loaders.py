@@ -5,7 +5,7 @@ import numpy as np
 import json
 import os
 
-from LumenGSLAM.utils.general import my_logger
+from ..general import my_logger
 
 from ..data_process.loading import reshape_normalize_channel_first, preprocess_depth, load_poses
 from ..data_process.pose_handling import align

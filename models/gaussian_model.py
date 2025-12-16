@@ -5,11 +5,11 @@ from simple_knn._C import distCUDA2
 from gaussian_norms import compute_gauss_norm
 from functools import partial
 
-from LumenGSLAM.utils.data_process.preprocessing import get_pointcloud, get_depth_and_silhouette
-from LumenGSLAM.utils.data_process.outlier_handling import energy_mask
-from LumenGSLAM.utils.data_process.pose_handling import quat2rot, rotation_aligned_with_normal
-from LumenGSLAM.utils.data_process.sh_utils import RGB2SH, eval_sh
-from LumenGSLAM.utils.general import my_logger
+from utils.data_process.preprocessing import get_pointcloud, get_depth_and_silhouette
+from utils.data_process.outlier_handling import energy_mask
+from utils.data_process.pose_handling import quat2rot, rotation_aligned_with_normal
+from utils.data_process.sh_utils import RGB2SH, eval_sh
+from utils.general import my_logger
 
 
 # from utils.data_process.geometry import strip_lowerdiag

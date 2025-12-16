@@ -72,7 +72,7 @@ def train_loop(args):
     train_loader = BaseDataLoader(data_path, data_shape, depth_scale, pose_file_name=args.pose_file, split=train_split)
 
     # model
-    camera = Camera(w=data_shape[1], h=data_shape[0], k=K, device=device, near=0.01, far=100, bg=[0,0,0])
+    camera = Camera(w=data_shape[1], h=data_shape[0], k=K, device=device, near=0.01, far=100, bg=[0,0,0]) # should put far = 1
     gaussian_population = GaussianModel(device=device, config=train_config, save_dst=Path(train_dst))
 
     renderer = SceneRenderer(device=device)
@@ -93,14 +93,14 @@ def train_loop(args):
 
     # plots and stats
     if not args.no_log:
-        logger.plot_save(plot_every=30, plot_metrics=not args.no_map_metrics)
+        logger.plot_save(plot_metrics=not args.no_map_metrics)
 
     logger.save_info_csv()
     trainer.save_keyframe_stats()
 
     # eval loop
     if not args.no_eval:
-        eval_dst = Path(str(train_dst).replace('/train/', '/test/'))
+        eval_dst = Path(str(train_dst).replace('train', 'test'))
         os.makedirs(eval_dst, exist_ok=True)
 
         eval_data_src = data_path
